@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { invoke } from "@tauri-apps/api/tauri";
+import { listen } from '@tauri-apps/api/event';
 
 const greetMsg = ref("");
 const name = ref("");
@@ -14,6 +15,12 @@ const showMsg = () => {
   invoke('show_msg', { invokeMessage: '桑桑!' })
   console.log('hi')
 }
+const initProcess = async () => {
+  await invoke("init_process");
+  await listen<string>('event-name', (event) => {
+    console.log(event);
+  });
+}
 </script>
 
 <template>
@@ -26,5 +33,7 @@ const showMsg = () => {
 
   <div>
     <button @click="showMsg">rust打印测试</button>
+
+    <button @click="initProcess">触发事件</button>
   </div>
 </template>
