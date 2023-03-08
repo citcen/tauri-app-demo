@@ -9,13 +9,22 @@ async function greet() {
   // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
   greetMsg.value = await invoke("greet", { name: name.value });
 }
+
+const showMsg = () => {
+  invoke('show_msg', { invokeMessage: '桑桑!' })
+  console.log('hi')
+}
 </script>
 
 <template>
   <div class="card">
-    <input id="greet-input" v-model="name" placeholder="Enter a name..." />
+    <input id="greet-input" v-model="name" placeholder="输入一个名字..." />
     <button type="button" @click="greet()">Greet</button>
   </div>
 
   <p>{{ greetMsg }}</p>
+
+  <div>
+    <button @click="showMsg">rust打印测试</button>
+  </div>
 </template>
